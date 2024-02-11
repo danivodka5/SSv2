@@ -1,6 +1,7 @@
 package Gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,15 +19,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.w3c.dom.NodeList;
 
-import GuiElements.Boton;
-import GuiElements.BotonPanel;
-import GuiElements.UserGuiSearchBar;
-import GuiElements.UserPanel;
 import MySQL.Conexion;
 import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 
@@ -38,26 +36,25 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import javax.swing.DropMode;
 
-public class UserGui {
+public class UserGuiPanel {
 	// Atributos
 	private JFrame frame;
 	private ImageIcon icon1;
 	
 	private UserGuiSearchBar ugsb;
 	private Boton btnbuscar;
-	private Boton btnanuser;
 	
 	private ChromeDriver driver;
 	private String user;
 	private boolean userExists;
 	
 	private UserPanel userpanel;
-	private JLabel labelNotFound;
 	private Conexion conn;
 	
 	private ArrayList<String> arrstorysrc = new ArrayList<>();
@@ -67,8 +64,7 @@ public class UserGui {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UserGui window = new UserGui();
-
+					UserGuiPanel window = new UserGuiPanel();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,21 +72,21 @@ public class UserGui {
 		});
 	}
 	// Constructor
-	public UserGui(ChromeDriver driver, Conexion conn) {
+	public UserGuiPanel(ChromeDriver driver, Conexion conn) {
 		this.conn = conn;
 		this.driver = driver;
 		initialize();
 	}
 	
 	// Constructor
-	public UserGui(ChromeDriver driver) {
+	public UserGuiPanel(ChromeDriver driver) {
 		this.driver = driver;
 		initialize();
 		
 	}
 	
 	// Constructor testing
-	public UserGui() {
+	public UserGuiPanel() {
 		initialize();
 	}
 	
@@ -107,15 +103,17 @@ public class UserGui {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// ERROR CAUSADO POR ->>>>>>>> ?
-		frame.getContentPane().setLayout(null);
+		//frame.getContentPane().setLayout(null);
 		
 		icon1 = new ImageIcon(InstagramLoginGui.class.getResource("/Images/ZoomInsta2.png"));
 		
 		ImageIcon temp1 = icon1;
 
+		
 		userpanel = new UserPanel();
+		userpanel.setPreferredSize(new Dimension(50,100));
 		userpanel.setBounds(0, 0, 456, 79);
-		frame.getContentPane().add(userpanel);
+		frame.getContentPane().add(userpanel, BorderLayout.NORTH);
 		userpanel.setLayout(null);
 		
 		ugsb = new UserGuiSearchBar();
@@ -123,30 +121,6 @@ public class UserGui {
 		userpanel.add(ugsb);
 		ugsb.setHorizontalAlignment(SwingConstants.CENTER);
 		ugsb.setColumns(15);
-		
-		// Label Not found
-		labelNotFound = new JLabel("");
-		labelNotFound.setBounds(64, 149, 328, 246);
-		labelNotFound.setVisible(false);
-		frame.getContentPane().add(labelNotFound);
-		
-		// Boton AnalizarUsuario
-		btnanuser = new Boton("Analizar Usuario", new Color(112, 196, 240), new Color(0, 149, 246));
-		btnanuser.setVisible(true);
-		btnanuser.setText("<html><font color = white>Analizar Usuario</font></html>");
-		btnanuser.setFont(new Font("Arial",Font.BOLD, 16));
-		btnanuser.setEnabled(false);
-		btnanuser.setBounds(30,120,267,50);
-		frame.getContentPane().add(btnanuser);
-		
-		btnanuser.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Iniciando el metodo AnalizarPerfil()");
-				analizarPerfil();
-				
-			}			
-		});
 		
 		// Boton buscar
 		btnbuscar = new Boton("Buscar", new Color(112, 196, 240), new Color(0, 149, 246));
@@ -195,30 +169,6 @@ public class UserGui {
                 }
             }
 		});
-		
-			BotonPanel bp = new BotonPanel();
-			bp.setBounds(26, 534, 83, 72);
-			frame.getContentPane().add(bp);
-			
-			final JLabel labelZoom = new JLabel("");
-			labelZoom.setBounds(43, 547, 55, 52);
-			frame.getContentPane().add(labelZoom);
-			temp1.setImage(temp1.getImage().getScaledInstance(labelZoom.getWidth(), labelZoom.getHeight(), Image.SCALE_SMOOTH));
-			labelZoom.setIcon(temp1);
-			
-			bp.addMouseListener(new MouseAdapter() {
-			    public void mouseEntered(java.awt.event.MouseEvent evt) {
-			    	labelZoom.setBounds(0, 0, 300, 300);
-			    	
-			    	ImageIcon temp2 = icon1;
-			    	temp2.setImage(temp2.getImage().getScaledInstance(labelZoom.getWidth(), labelZoom.getHeight(), Image.SCALE_SMOOTH));    	
-			    	labelZoom.setIcon(icon1);
-
-			    }
-			    public void mouseExited(java.awt.event.MouseEvent evt) {
-			    	labelZoom.setBounds(20, 341, 35, 34);
-			    }
-			});
 	}
 	private void ejecutarBusqueda() {
 		driver.get("https://www.instagram.com/"+user);

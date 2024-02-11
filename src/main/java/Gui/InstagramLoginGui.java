@@ -320,9 +320,9 @@ public class InstagramLoginGui {
 									//labeladv.setText("Login Correcto");
 									
 									if (conn != null) {
-										UserGui ug = new UserGui(driver,conn);									
+										UserGuiPanel ug = new UserGuiPanel(driver,conn);									
 									} else {
-										UserGui ug = new UserGui(driver);		
+										UserGuiPanel ug = new UserGuiPanel(driver);		
 									}
 																								
 									frame.setVisible(false); 

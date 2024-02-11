@@ -1,4 +1,4 @@
-package GuiElements;
+	package GuiElements;
 
 import java.awt.Component;
 import java.util.List;
@@ -22,6 +22,7 @@ public class PanelSlide extends JPanel {
 	
 	
 	public PanelSlide() {
+		
 		list = new ArrayList<>();
 		timer = new Timer( 0, new ActionListener() {
 			@Override
@@ -88,7 +89,6 @@ public class PanelSlide extends JPanel {
 	}
 	
 	public static void main(String[] args){
-	
 		
 	}
 }
