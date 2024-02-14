@@ -140,7 +140,7 @@ public class UserGuiPanel {
 				
 				
 				//ejecutarBusqueda();
-				findInstagramStories();
+				//findInstagramStories();
 			}
 		});
 		

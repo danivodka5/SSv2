@@ -2,36 +2,102 @@ package GuiElements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import Gui.InstagramLoginGui;
 
 public class InstagramUserGuiSearchPanel extends JPanel {
 
 	// Soy un simple panel
-	
 	private JPanel exit;
-	private JPanel searchbar;
-	private JPanel searchimg;
+	private UserGuiSearchBar ugsb;
+	private JPanel searchpanel;
+	private JPanel center;
+	private JLabel jlicon;
 	
 	// Constructor
 	public InstagramUserGuiSearchPanel() {
 		setLayout(new BorderLayout());
 		
+		// Exit panel
 		exit = new JPanel();
-		searchbar = new JPanel();
-		searchimg = new JPanel();
+		exit.setPreferredSize(new Dimension(70,50));
+		exit.setLayout(new BoxLayout(exit, BoxLayout.Y_AXIS));
+		ImageIcon icon = new ImageIcon(InstagramUserGuiSearchPanel.class.getResource("/Images/Back_Arrow.png"));
+		Image image = icon.getImage(); // transform it 
+		Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		icon = new ImageIcon(newimg);  // transform it back
 		
-		exit.setBackground(Color.red);
-		searchbar.setBackground(Color.BLUE);
-		searchimg.setBackground(Color.cyan);
+		jlicon = new JLabel(icon);
+		
+		jlicon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		jlicon.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		exit.add(Box.createVerticalGlue());
+		exit.add(jlicon);
+		exit.add(Box.createVerticalGlue());
+			
+		// UserGuiSearchBar Panel
+		center = new JPanel();
+		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+		center.setBorder(new EmptyBorder(20,10,20,5));
+		
+		center.add(Box.createVerticalGlue());
+		ugsb = new UserGuiSearchBar();
+		ugsb.setSize(new Dimension(30,30));
+		
+		center.setBackground(Color.white);
+		center.add(ugsb);
+		center.add(Box.createVerticalGlue());
+		
+		
+		add(center, BorderLayout.CENTER);
+		
+		// Hay que meterle una imagen
+		searchpanel = new JPanel(new GridBagLayout());
+		searchpanel.setPreferredSize(new Dimension(80,100));
+		searchpanel.setBackground(Color.white);
+		
+		// Añadir padding a searchpanel
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        
+        SearchGuiIcon ugi = new SearchGuiIcon();
+        searchpanel.add(ugi,  gbc);
+		
+		exit.setBackground(Color.white);
+		ugsb.setBackground(Color.BLUE);
 		
 		add(exit, BorderLayout.WEST);
-		add(searchbar, BorderLayout.CENTER);
-		add(searchimg, BorderLayout.EAST);
-		
-		
+		add(searchpanel, BorderLayout.EAST);
+			
+		// Listeners
+		setListener();
 	};
 	
+	public String getCenterSize() {
+		return center.getSize()+"";
+	}
 	
-	
+	public void setListener() {
+		
+	}
 }

@@ -23,7 +23,7 @@ public class UserGuiSearchBar extends JTextField {
 		setColumns(10);
 		setFont(new Font("Arial", Font.PLAIN, 19));
 
-		LineBorder b1 = new LineBorder(new Color(5,5,5),0);
+		LineBorder b1 = new LineBorder(new Color(5,5,5),1);
 		
 		// Borde Interior
 		Border b2 = BorderFactory.createEmptyBorder(0,9,0,0);

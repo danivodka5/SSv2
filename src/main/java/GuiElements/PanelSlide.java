@@ -20,11 +20,9 @@ public class PanelSlide extends JPanel {
 	private int currentShowing;
 	private boolean animateRight;
 	
-	
 	public PanelSlide() {
-		
 		list = new ArrayList<>();
-		timer = new Timer( 0, new ActionListener() {
+		timer = new Timer(0, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				animate();
@@ -32,7 +30,7 @@ public class PanelSlide extends JPanel {
 		});
 	}
 	
-	// Los tres puntos me permiten colocar varios argumentos de la misma variable ,lol.
+	// Los tres puntos me permiten colocar varios argumentos de la misma variable
 	public void init(Component... com) {
 		if (com.length > 0) {
 			for (Component c : com) {
@@ -49,7 +47,7 @@ public class PanelSlide extends JPanel {
 	}
 	public void show(int index) {
 		if (!timer.isRunning() ) {
-			if ( (list.size() > 2) && (index < list.size() )&&(index != currentShowing) ) {
+			if ((list.size() > 2) && (index < list.size() )&&(index != currentShowing) ) {
 				comShow = list.get(index);
 				comExit = list.get(currentShowing);
 				animateRight = index < currentShowing;

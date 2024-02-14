@@ -180,6 +180,7 @@ public class InstagramLoginGui {
 		loading.setImage(loading.getImage().getScaledInstance(labelgif.getWidth(), labelgif.getHeight()+10, Image.SCALE_DEFAULT));
 		labelgif.setIcon(loading);
 		
+		
 		// Invisible
 		labelgif.setVisible(false);
 		frame.getContentPane().setLayout(null);
@@ -311,24 +312,30 @@ public class InstagramLoginGui {
 								System.out.println("-- Cargando ---");
 							} catch(Exception e) {
 								System.out.println("Pagina cargada al 100%");
+								
 								labelgif.setVisible(false);
 								condicion = false;
 								labeladv.setVisible(true);
+								
 								// Inicio de sesion correcto
-								if (driver.getCurrentUrl().contains("next=%2F")) {
-									//labeladv.setForeground(Color.green);
-									//labeladv.setText("Login Correcto");
-									
+								System.out.println(driver.getCurrentUrl());
+								boolean curlb = driver.getCurrentUrl().contains("next=%2F");
+								System.out.println("c = "+curlb);
+								if (curlb) {	
 									if (conn != null) {
-										UserGuiPanel ug = new UserGuiPanel(driver,conn);									
+										// Deprecated UserGuiPanel ug = new UserGuiPanel(driver,conn);	
+										InstagramUserGui iug = new InstagramUserGui(driver);
 									} else {
-										UserGuiPanel ug = new UserGuiPanel(driver);		
+										System.out.println("Abro objeto gui");
+										InstagramUserGui iug = new InstagramUserGui(driver);
+										// Deprecated UserGuiPanel ug = new UserGuiPanel(driver);		
 									}
 																								
 									frame.setVisible(false); 
 									frame.dispose(); 	     // Destroy the JFrame object
 								} 
-								if (driver.getCurrentUrl().contains("challenge")) {
+								
+								else if(driver.getCurrentUrl().contains("challenge")) {
 									labeladv.setForeground(Color.red);
 									labeladv.setText("Captcha required :/");
 								}
