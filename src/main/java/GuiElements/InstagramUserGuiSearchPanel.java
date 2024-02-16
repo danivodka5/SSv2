@@ -10,6 +10,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Gui.InstagramLoginGui;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class InstagramUserGuiSearchPanel extends JPanel {
 
@@ -28,6 +31,8 @@ public class InstagramUserGuiSearchPanel extends JPanel {
 	private JPanel searchpanel;
 	private JPanel center;
 	private JLabel jlicon;
+	public SearchGuiIcon ugi;
+	
 	
 	// Constructor
 	public InstagramUserGuiSearchPanel() {
@@ -80,7 +85,8 @@ public class InstagramUserGuiSearchPanel extends JPanel {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
         
-        SearchGuiIcon ugi = new SearchGuiIcon();
+        ugi = new SearchGuiIcon();
+        
         searchpanel.add(ugi,  gbc);
 		
 		exit.setBackground(Color.white);
@@ -89,15 +95,17 @@ public class InstagramUserGuiSearchPanel extends JPanel {
 		add(exit, BorderLayout.WEST);
 		add(searchpanel, BorderLayout.EAST);
 			
-		// Listeners
-		setListener();
+
 	};
 	
 	public String getCenterSize() {
 		return center.getSize()+"";
 	}
-	
-	public void setListener() {
-		
+	public int getTextSize() {
+		return ugsb.getText().length();
 	}
+	public String getText() {
+		return ugsb.getText();
+	}
+	
 }

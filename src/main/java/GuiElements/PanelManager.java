@@ -1,7 +1,9 @@
 package GuiElements;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,24 +11,23 @@ import javax.swing.JPanel;
 public class PanelManager extends JPanel {
 	
 	
-	private ArrayList<Component> ljp;
+	private List<JPanel> panelList;
 	
 	public PanelManager() {
+		panelList = new ArrayList<JPanel>();
+	}
+	
+	public void addInitialPanels(JPanel... jp) {
+
+		for (JPanel c : jp) {
+			panelList.add(c);
+		}
 		
+		this.add(panelList.get(0), BorderLayout.CENTER);
+		this.setVisible(true);
 	};
 	
-	public void addPanel(JPanel... jp) {
-		if (jp.length > 0) {
-			for (Component c : jp) {
-				ljp.add(c);
-				c.setSize(getSize());
-				c.setVisible(false);
-				this.add(c);
-				}
-		}
-		Component show = ljp.get(0);
-		show.setVisible(true);
-		show.setLocation(0, 0);
-	};
-
+	public void showPanel(int panel) {
+		
+	}
 }

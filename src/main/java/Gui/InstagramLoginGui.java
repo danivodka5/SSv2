@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
@@ -96,6 +98,17 @@ public class InstagramLoginGui {
 		frame.setBounds(100, 100, 550, 920);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter()
+		{
+		    @Override
+		    public void windowClosing(WindowEvent e)
+		    {
+		      driver.close();
+		      System.out.println("Closed");
+		      e.getWindow().dispose();
+		    }
+		});
+		
 		//frame.getContentPane().setLayout(null);
 		
 		// Buscar todos los chromedriver y eliminarlos del administrador de tareas
