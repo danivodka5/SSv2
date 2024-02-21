@@ -65,6 +65,7 @@ public class FindUserThread implements Runnable {
 			lp.setLoadingPanelNull();
 			
 			// Mostrar Panel de Opciones de usuario en este caso
+			// https://stackoverflow.com/questions/10346449/scrolling-a-jpanel
 		} else {
 			String adv = (String) js.executeScript("return document.getElementsByClassName('x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh xbxaen2 x1u72gb5 x1t1ogtf x13zrc24 x1n2onr6 x1plvlek xryxfnj x1c4vz4f x2lah0s xdt5ytf xqjyukv x1qjc9v5 x1oa3qoh xl56j7k')[0].textContent;");
 			System.out.println("adv ="+adv);

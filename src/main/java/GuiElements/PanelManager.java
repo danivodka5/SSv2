@@ -18,13 +18,15 @@ public class PanelManager extends JPanel {
 	}
 	
 	public void addInitialPanels(JPanel... jp) {
-
+		System.out.println("-- Probando el metodo --");
 		for (JPanel c : jp) {
 			panelList.add(c);
 		}
-		
+		System.out.println("-- Probando this.add --");
 		this.add(panelList.get(0), BorderLayout.CENTER);
-		this.setVisible(true);
+		
+		System.out.println("-- setvisible --");
+		//this.setVisible(true);
 	};
 	
 	public void showPanel(int panel) {

@@ -51,7 +51,7 @@ public class InstagramUserGui {
 	private LoadingPanel lp;
 	
 	
-	/*
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -74,7 +74,7 @@ public class InstagramUserGui {
 		});
 		
 	}
-	*/
+	
 	// Constructor 
 	/**
 	 * @wbp.parser.entryPoint
@@ -85,16 +85,17 @@ public class InstagramUserGui {
 		initialize();
 	}
 	
-	/*
+	
 	public InstagramUserGui() {
 		initialize();
 	}
-	*/
+	
 	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(600,800));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.addWindowListener(new WindowAdapter()
 		{
 		    @Override
@@ -104,6 +105,7 @@ public class InstagramUserGui {
 		      e.getWindow().dispose();
 		    }
 		});
+		
 		
 		ps = new PanelSlide();
 		frame.getContentPane().add(ps);
@@ -123,7 +125,9 @@ public class InstagramUserGui {
 		pm = new PanelManager();
 		pm.setLayout(new BorderLayout());
 		pm.setBorder(new EmptyBorder(100,100,100,100));
-		pm.addInitialPanels(jpanelicon);
+		
+		// pm.addInitialPanels(jpanelicon);
+		
 		// Adding JPanels to JPanelManager
 		
 		
@@ -149,14 +153,13 @@ public class InstagramUserGui {
 		    }
 		  });	
 		
-		// Bar MouseListener
+		// Bar MouseListener, Cuando hacemos click al buscador
 		iugsp.ugi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 		    	if (iugsp.getTextSize() > 0) {
 		    		// Hacemos visible el panel de carga
 		    		jpanelicon.setVisible(true);
-		    		
 		    		System.out.println("Visibilidad = "+jpanelicon.isVisible());
 		    		
 		    		// Ejecutamos el Thread
