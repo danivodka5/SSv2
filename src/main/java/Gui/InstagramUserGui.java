@@ -44,6 +44,8 @@ public class InstagramUserGui {
 
 	private ChromeDriver driver;
 	private PanelManager pm;
+	
+	// El error esta aqui, ya que jpanel icon esta vacio
 	private JPanel jpanelicon;
 	
 	private Thread findUserThread;
@@ -126,8 +128,7 @@ public class InstagramUserGui {
 		pm.setLayout(new BorderLayout());
 		pm.setBorder(new EmptyBorder(100,100,100,100));
 		
-		// pm.addInitialPanels(jpanelicon);
-		
+	
 		// Adding JPanels to JPanelManager
 		
 		
@@ -144,7 +145,11 @@ public class InstagramUserGui {
 		jpanelicon.setPreferredSize(new Dimension(100,100));   	
 		jpanelicon.setBackground(null);
 			
-	
+		// Pm adds jpanelicon after its created
+		pm.addInitialPanels(jpanelicon);
+		//pm.add(jpanelicon, BorderLayout.CENTER);
+		
+		
 		// Frame listener (EMPTY!!)
 		frame.addComponentListener(new ComponentAdapter() {
 		    @Override

@@ -12,6 +12,7 @@ public class PanelManager extends JPanel {
 	
 	
 	private List<JPanel> panelList;
+	private JPanel currentPanel;
 	
 	public PanelManager() {
 		panelList = new ArrayList<JPanel>();
@@ -23,13 +24,16 @@ public class PanelManager extends JPanel {
 			panelList.add(c);
 		}
 		System.out.println("-- Probando this.add --");
-		this.add(panelList.get(0), BorderLayout.CENTER);
 		
-		System.out.println("-- setvisible --");
-		//this.setVisible(true);
+		currentPanel = panelList.get(0);
+		add(currentPanel, BorderLayout.CENTER);
+		this.setVisible(true);
+
 	};
 	
 	public void showPanel(int panel) {
-		
+		remove(currentPanel);
+		currentPanel = panelList.get(panel);
+		add(currentPanel, BorderLayout.CENTER);
 	}
 }

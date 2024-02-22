@@ -47,7 +47,6 @@ public class InstagramLoginGui {
 	private ChromeDriver driver;
 	private JLabel labelip_2;
 	private JLabel labelsql;
-	private JLabel labeladv;
 	private Conexion conn;
 
 	public static void main(String[] args) {
@@ -273,10 +272,6 @@ public class InstagramLoginGui {
 		labelsql.setBounds(39, 750, 435, 82);
 		labelsql.setFont(new Font("Arial", Font.PLAIN, 19));
 		frame.getContentPane().add(labelsql);
-		
-		labeladv = new JLabel("New label");
-		labeladv.setBounds(39, 371, 435, 47);
-		frame.getContentPane().add(labeladv);
 	
 		btnmysql.addActionListener(new ActionListener() {
 			@Override
@@ -317,7 +312,7 @@ public class InstagramLoginGui {
 					public void run() {
 						boolean condicion = true;
 						labelgif.setVisible(true);
-						labeladv.setVisible(false);
+						
 						while (condicion) {
 							try {
 								Thread.sleep(900);
@@ -328,7 +323,7 @@ public class InstagramLoginGui {
 								
 								labelgif.setVisible(false);
 								condicion = false;
-								labeladv.setVisible(true);
+								
 								
 								// Inicio de sesion correcto
 								System.out.println(driver.getCurrentUrl());
@@ -349,8 +344,7 @@ public class InstagramLoginGui {
 								} 
 								
 								else if(driver.getCurrentUrl().contains("challenge")) {
-									labeladv.setForeground(Color.red);
-									labeladv.setText("Captcha required :/");
+									
 								}
 								
 								else {
