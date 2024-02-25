@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ComponentAdapter;
 
 import javax.swing.BoxLayout;
@@ -19,6 +21,7 @@ import javax.swing.JFrame;
 import GuiElements.InstagramTextField;
 import GuiElements.InstagramUserGuiSearchPanel;
 import GuiElements.LoadingPanel;
+import GuiElements.OptionsPanel;
 import GuiElements.PanelManager;
 import GuiElements.PanelSlide;
 import GuiElements.SearchGuiIcon;
@@ -46,13 +49,15 @@ public class InstagramUserGui {
 	private PanelManager pm;
 	
 	// El error esta aqui, ya que jpanel icon esta vacio
-	private JPanel jpanelicon;
+	//private JPanel jpanelicon;
 	
 	private Thread findUserThread;
 
 	private LoadingPanel lp;
+	private OptionsPanel op;
 	
-	
+	private userDoesNotExist udnt;
+	private List<JPanel> panelList;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,7 +66,6 @@ public class InstagramUserGui {
 					
 					InstagramUserGui window = new InstagramUserGui();
 					window.frame.setVisible(true);
-					
 					window.frame.addComponentListener(new ComponentAdapter() {
 			            public void componentResized(ComponentEvent e) {
 			                System.out.println("Frame Resized");
@@ -77,6 +81,7 @@ public class InstagramUserGui {
 		
 	}
 	
+	
 	// Constructor 
 	/**
 	 * @wbp.parser.entryPoint
@@ -86,8 +91,7 @@ public class InstagramUserGui {
 		this.driver = d;
 		initialize();
 	}
-	
-	
+
 	public InstagramUserGui() {
 		initialize();
 	}
@@ -107,8 +111,7 @@ public class InstagramUserGui {
 		      e.getWindow().dispose();
 		    }
 		});
-		
-		
+			
 		ps = new PanelSlide();
 		frame.getContentPane().add(ps);
 		
@@ -116,40 +119,42 @@ public class InstagramUserGui {
 		
 		// Panel de Busqueda
 		iugsp = new InstagramUserGuiSearchPanel();
-		
-		
+
 		iugsp.setPreferredSize(new Dimension(100,100));
 		
 		// Añadimos el panel de busqueda Arriba
 		ps.add(iugsp, BorderLayout.NORTH);
-		
-		// JPanelManager 
-		pm = new PanelManager();
-		pm.setLayout(new BorderLayout());
-		pm.setBorder(new EmptyBorder(100,100,100,100));
-		
+	
 	
 		// Adding JPanels to JPanelManager
 		
-		
-		// JPanel Manager added
-		ps.add(pm, BorderLayout.CENTER);
-		
-		jpanelicon = new JPanel(new BorderLayout());
-		jpanelicon.setVisible(false);
-		
+		// LoadingPanel
 		lp = new LoadingPanel();
 		lp.setVisible(true);
-		jpanelicon.add(lp, BorderLayout.CENTER);
-		 
-		jpanelicon.setPreferredSize(new Dimension(100,100));   	
-		jpanelicon.setBackground(null);
+		
+		// OptionsPANEL
+		op = new OptionsPanel();
+		
+		// UserDoesntExistPanel
+		udnt = new userDoesNotExist("Nose", "algo");
+		
+		// PanelList
+		panelList = new ArrayList<>();
+		panelList.add(lp);
+		panelList.add(op);
+		panelList.add(udnt);
+		
+		System.out.println("-- JPANELMANAGER ---");
+
+		// JPanelManager 
+		pm = new PanelManager(panelList);
+		//pm.setLayout(new BorderLayout());
+		//pm.setBorder(new EmptyBorder(100,100,100,100));
+		
+		// JPanel Manager added
+		System.out.println("-- voy a añadir--");	
+		ps.add(pm, BorderLayout.CENTER);
 			
-		// Pm adds jpanelicon after its created
-		pm.addInitialPanels(jpanelicon);
-		//pm.add(jpanelicon, BorderLayout.CENTER);
-		
-		
 		// Frame listener (EMPTY!!)
 		frame.addComponentListener(new ComponentAdapter() {
 		    @Override
@@ -164,11 +169,11 @@ public class InstagramUserGui {
 			public void mouseClicked(MouseEvent e) {
 		    	if (iugsp.getTextSize() > 0) {
 		    		// Hacemos visible el panel de carga
-		    		jpanelicon.setVisible(true);
-		    		System.out.println("Visibilidad = "+jpanelicon.isVisible());
+		    		//jpanelicon.setVisible(true);
+		    		//System.out.println("Visibilidad = "+jpanelicon.isVisible());
 		    		
 		    		// Ejecutamos el Thread
-		    		FindUserThread fut = new FindUserThread(driver,iugsp.getText(),lp);
+		    		FindUserThread fut = new FindUserThread(driver,iugsp.getText(),lp,pm);
 		    		fut.start();
 
 		    	}
@@ -198,7 +203,7 @@ public class InstagramUserGui {
 		// Espero a que finalice el hilo
 		try { findUserThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
 		
-		jpanelicon.setVisible(false);
+		//jpanelicon.setVisible(false);
 		
 		//driver.get("https://www.instagram.com/"+user);
 		//System.out.println("Inicio del metodo ejecutarBusqueda() usuario: "+user);

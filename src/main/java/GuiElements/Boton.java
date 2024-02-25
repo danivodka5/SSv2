@@ -11,6 +11,11 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 
+// Boton Bloqueado = #4bb4f8
+
+// Boton Desbloqueado = #0095f6
+// Boton HoverEncima = #0074CE
+// Boton HoverNoEncima = Boton Desbloqueado = #0095f6
 public class Boton extends JButton{
 	
 	private Shape shape;
@@ -20,7 +25,7 @@ public class Boton extends JButton{
 	private boolean empty = true;
 	private boolean mousee = false;
 	private boolean blocked = false;
-		
+	
 	public Boton(String title,Color fcolor,Color lcolor) {
 		this.fcolor = fcolor;
 		this.lcolor = lcolor;
@@ -35,6 +40,7 @@ public class Boton extends JButton{
 		
 		addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	System.out.println("Hola!");
 		    	/*
 		    	System.out.println("empty="+empty);
 		    	System.out.println("mousee="+mousee);
@@ -59,6 +65,11 @@ public class Boton extends JButton{
 		});
 		
 	}	
+	
+	public void setProperties() {
+		
+	}
+	
 	// Interior del JTextField
 	@Override
     protected void paintComponent(Graphics g) {

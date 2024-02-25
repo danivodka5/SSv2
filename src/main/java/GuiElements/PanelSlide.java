@@ -34,15 +34,24 @@ public class PanelSlide extends JPanel {
 	public void init(Component... com) {
 		if (com.length > 0) {
 			for (Component c : com) {
+				System.out.println(" 1 ");
 				list.add(c);
+				System.out.println(" 2 ");
 				c.setSize(getSize());
+				System.out.println(" 3 ");
 				c.setVisible(false);
+				
+				System.out.println(" 4 ");
 				this.add(c);
+				System.out.println(" 5 ");
 				}
 		}
+		/*
 		Component show = list.get(0);
 		show.setVisible(true);
 		show.setLocation(0, 0);
+		*/
+		
 		
 	}
 	public void show(int index) {

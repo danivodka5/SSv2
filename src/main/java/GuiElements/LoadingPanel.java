@@ -14,28 +14,34 @@ import javax.swing.SwingConstants;
 
 import Gui.InstagramLoginGui;
 
-public class LoadingPanel extends JLabel{
-	
-	private JLabel notFoundLabel;
+public class LoadingPanel extends JPanel{
+
+	private JLabel nfl;
 	
 	// Constructor
 	public LoadingPanel() {
-		
-		notFoundLabel = new JLabel();
-		add(notFoundLabel);
-		setVisible(true);
-		setBackground(Color.red);
+		nfl = new JLabel();
+		nfl.setVisible(true);
+		nfl.setBackground(Color.red);
 		//setPreferredSize(new Dimension(500,500));
-        setHorizontalAlignment(SwingConstants.CENTER);
-        setVerticalAlignment(SwingConstants.CENTER);
+		nfl.setHorizontalAlignment(SwingConstants.CENTER);
+		nfl.setVerticalAlignment(SwingConstants.CENTER);
 	
 		//setIcon(new ImageIcon(LoadingPanel.class.getResource("/Images/Spinner.gif")));
+        
+        // Provisional
+		nfl.setIcon(new ImageIcon(LoadingPanel.class.getResource("/Images/Spinner.gif")));
+		//nfl.setVisible(false);
+		
+		add(nfl);
 	}
-	
+	/*
 	public void setLoadingPanel() {
 		setIcon(new ImageIcon(LoadingPanel.class.getResource("/Images/Spinner.gif")));
 		notFoundLabel.setVisible(false);
 	}
+	*/
+	/*
 	public void setUserNotFound(String label1) {
 		setIcon(null);
         setLayout(new GridLayout(2, 1));
@@ -53,5 +59,5 @@ public class LoadingPanel extends JLabel{
 	public void setLoadingPanelNull() {
 		setIcon(null);
 	}
-	
+	*/
 }

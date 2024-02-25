@@ -333,6 +333,7 @@ public class InstagramLoginGui {
 									if (conn != null) {
 										// Deprecated UserGuiPanel ug = new UserGuiPanel(driver,conn);	
 										InstagramUserGui iug = new InstagramUserGui(driver);
+										frame.dispose();
 									} else {
 										System.out.println("Abro objeto gui");
 										InstagramUserGui iug = new InstagramUserGui(driver);
