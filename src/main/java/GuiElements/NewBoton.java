@@ -12,7 +12,6 @@ import javax.swing.JButton;
 
 public class NewBoton extends JButton{
 	
-	
 	private PropertyChangeSupport propertySupport;
 	private Shape shape;	
 	private Color blockedColor = new Color(75,180,248);
@@ -40,7 +39,6 @@ public class NewBoton extends JButton{
 		
 		addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	System.out.println("holi");
 		    	hover = true;
 		    	repaint();
 		    }

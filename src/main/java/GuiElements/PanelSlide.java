@@ -1,101 +1,117 @@
-	package GuiElements;
+package GuiElements;
 
 import java.awt.Component;
-import java.util.List;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import java.util.ArrayList;
-import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-// https://www.youtube.com/watch?v=jkMEsPbghcE
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 public class PanelSlide extends JPanel {
-	
-	private Timer timer;
-	private Component comExit;
-	private Component comShow;
-	private List<Component> list;
-	
-	private int currentShowing;
-	private boolean animateRight;
-	
-	public PanelSlide() {
-		list = new ArrayList<>();
-		timer = new Timer(0, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				animate();
-			}
-		});
-	}
-	
-	// Los tres puntos me permiten colocar varios argumentos de la misma variable
-	public void init(Component... com) {
-		if (com.length > 0) {
-			for (Component c : com) {
-				System.out.println(" 1 ");
-				list.add(c);
-				System.out.println(" 2 ");
-				c.setSize(getSize());
-				System.out.println(" 3 ");
-				c.setVisible(false);
-				
-				System.out.println(" 4 ");
-				this.add(c);
-				System.out.println(" 5 ");
-				}
-		}
-		/*
-		Component show = list.get(0);
-		show.setVisible(true);
-		show.setLocation(0, 0);
-		*/
-		
-		
-	}
-	public void show(int index) {
-		if (!timer.isRunning() ) {
-			if ((list.size() > 2) && (index < list.size() )&&(index != currentShowing) ) {
-				comShow = list.get(index);
-				comExit = list.get(currentShowing);
-				animateRight = index < currentShowing;
-				currentShowing = index;
-				comShow.setVisible(true);
-				
-				if(animateRight) {
-					comShow.setLocation(-comShow.getWidth(), 0);
-				} else {
-					comShow.setLocation(getWidth(), 0);
-				}	
-				timer.start();
-			}
-		}
-	}
-	
-	private void animate() {
-		if (animateRight) {
-			if (comShow.getLocation().x < 0) {
-				comShow.setLocation(comShow.getLocation().x + 1, 0);
-			} else {
-				// Stop animation
-				comShow.setLocation(0, 0);
-				timer.stop();
-				comExit.setVisible(false);
-			}
-		} else {
-			if (comShow.getLocation().x > 0) {
-				comShow.setLocation(comShow.getLocation().x - 1, 0);
-				comExit.setLocation(comExit.getLocation().x - 1, 0);
-			} else {
-				comShow.setLocation(0, 0);
-				timer.stop();
-				comExit.setVisible(true);
-			}
-		}
-	}
-	
-	public static void main(String[] args){
-		
-	}
+
+    public int getAnimate() {
+        return animate;
+    }
+
+    public void setAnimate(int animate) {
+        this.animate = animate;
+    }
+
+    public PanelSlide() {
+        initComponents();
+        list = new ArrayList<>();
+        timer = new Timer(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                animate();
+            }
+        });
+
+    }
+
+    private final List<Component> list;
+    private final Timer timer;
+    private Component comExit;
+    private Component comShow;
+    private int currentShowing;
+    private boolean animateRight;
+    private int animate = 1;
+
+    public void init(Component... com) {
+        if (com.length > 0) {
+            for (Component c : com) {
+                list.add(c);
+                c.setSize(getSize());
+                c.setVisible(false);
+                this.add(c);
+            }
+            //  get first componect to show on panel when init
+            Component show = list.get(0);
+            show.setVisible(true);
+            show.setLocation(0, 0);
+        }
+    }
+
+    public void show(int index) {
+        if (!timer.isRunning()) {
+            if (list.size() > 2 && index < list.size() && index != currentShowing) {
+                comShow = list.get(index);
+                comExit = list.get(currentShowing);
+                animateRight = index < currentShowing;
+                currentShowing = index;
+                comShow.setVisible(true);
+                if (animateRight) {
+                    comShow.setLocation(-comShow.getWidth(), 0);
+                } else {
+                    comShow.setLocation( this.getWidth() , 0);
+                }
+                timer.start();
+            }
+        }
+    }
+
+    private void animate() {
+        if (animateRight) {
+            if (comShow.getLocation().x < 0) {
+                comShow.setLocation(comShow.getLocation().x + animate, 0);
+                comExit.setLocation(comExit.getLocation().x + animate, 0);
+            } else {
+                //  Stop animate
+                comShow.setLocation(0, 0);
+                timer.stop();
+                comExit.setVisible(false);
+            }
+        } else {
+            if (comShow.getLocation().x > 0) {
+                comShow.setLocation(comShow.getLocation().x - animate, 0);
+                comExit.setLocation(comExit.getLocation().x - animate, 0);
+            } else {
+                comShow.setLocation(0, 0);
+                timer.stop();
+                comExit.setVisible(false);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 336, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 283, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
 }

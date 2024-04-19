@@ -1,12 +1,6 @@
 package Gui;
 
-import java.awt.BorderLayout;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -21,7 +15,6 @@ public class FindUserThread implements Runnable {
 	private String user;
 	private PanelManager pm;
 
-	
 	public FindUserThread(ChromeDriver cd, String user,LoadingPanel lp, PanelManager pm) {
 		driver = cd;
 		this.user = user;
@@ -42,8 +35,9 @@ public class FindUserThread implements Runnable {
 	
 	@Override
 	public void run() {
+
 		System.out.println("-- Metodo showPanel 1 -- ");
-        pm.showPanel(1);
+        pm.showPanel(1); // cargando
 
 		driver.get("https://www.instagram.com/"+user);
 		System.out.println("Inicio del metodo ejecutarBusqueda() usuario: "+user);
@@ -68,6 +62,7 @@ public class FindUserThread implements Runnable {
 			System.out.println("El usuario existe <3");
 				
 			// Mostrar opciones
+			
 			pm.showPanel(2);
 			
 			// Mostrar Panel de Opciones de usuario en este caso
@@ -75,7 +70,10 @@ public class FindUserThread implements Runnable {
 		} else {
 			String adv = (String) js.executeScript("return document.getElementsByClassName('x9f619 xjbqb8w x78zum5 x168nmei x13lgxp2 x5pf9jr xo71vjh xbxaen2 x1u72gb5 x1t1ogtf x13zrc24 x1n2onr6 x1plvlek xryxfnj x1c4vz4f x2lah0s xdt5ytf xqjyukv x1qjc9v5 x1oa3qoh xl56j7k')[0].textContent;");
 			System.out.println("adv ="+adv);
+			
 			pm.showPanel(3);
+			
+			// Me puedo comunicar a traves de una funcion.
 		}
 	}
 }

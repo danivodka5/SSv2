@@ -1,4 +1,4 @@
-package GuiElements;
+package GuiTesting;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -12,6 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import GuiElements.LoadingPanel;
+import GuiElements.OptionsPanel;
+import GuiElements.PanelManager;
 
 
 public class testPanelManager {

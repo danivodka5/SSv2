@@ -13,11 +13,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
+import GuiElements.InsideOptionsPanel;
 import GuiElements.InstagramTextField;
 import GuiElements.InstagramUserGuiSearchPanel;
 import GuiElements.LoadingPanel;
@@ -55,9 +58,9 @@ public class InstagramUserGui {
 
 	private LoadingPanel lp;
 	private OptionsPanel op;
-	
 	private userDoesNotExist udnt;
 	private List<JPanel> panelList;
+	private InsideOptionsPanel iop;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -119,8 +122,24 @@ public class InstagramUserGui {
 		
 		// Panel de Busqueda
 		iugsp = new InstagramUserGuiSearchPanel();
-
 		iugsp.setPreferredSize(new Dimension(100,100));
+		
+		iugsp.jlicon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Panel actual="+pm.getCurrentPanel());
+		    	if (pm.getCurrentPanel() == 4) {
+		    			pm.showPanel(2);
+		    	}
+		    	if (pm.getCurrentPanel() == 2) {
+		    			pm.showPanel(1);
+		    	}
+		    	if (pm.getCurrentPanel() == 3) {
+		    		pm.showPanel(0);
+		    	}
+			}
+		});
+		
 		
 		// Añadimos el panel de busqueda Arriba
 		ps.add(iugsp, BorderLayout.NORTH);
@@ -135,21 +154,25 @@ public class InstagramUserGui {
 		// OptionsPANEL
 		op = new OptionsPanel();
 		
+		// InsideOptionsPanel
+		iop = new InsideOptionsPanel();
+		
 		// UserDoesntExistPanel
 		udnt = new userDoesNotExist("Nose", "algo");
-		
+
 		// PanelList
 		panelList = new ArrayList<>();
-		panelList.add(lp);
-		panelList.add(op);
-		panelList.add(udnt);
+		panelList.add(lp); 		// 1
+		panelList.add(op); 		// 2
+		panelList.add(udnt); 	// 3
+		panelList.add(iop);  	// 4
 		
-		System.out.println("-- JPANELMANAGER ---");
 
 		// JPanelManager 
 		pm = new PanelManager(panelList);
-		//pm.setLayout(new BorderLayout());
-		//pm.setBorder(new EmptyBorder(100,100,100,100));
+		
+		pm.addListenerioc(op);
+	
 		
 		// JPanel Manager added
 		System.out.println("-- voy a añadir--");	
@@ -175,6 +198,7 @@ public class InstagramUserGui {
 		    		// Ejecutamos el Thread
 		    		FindUserThread fut = new FindUserThread(driver,iugsp.getText(),lp,pm);
 		    		fut.start();
+		    		fut.join();
 
 		    	}
 			}

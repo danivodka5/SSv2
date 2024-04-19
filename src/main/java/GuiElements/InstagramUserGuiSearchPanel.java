@@ -30,7 +30,7 @@ public class InstagramUserGuiSearchPanel extends JPanel {
 	private UserGuiSearchBar ugsb;
 	private JPanel searchpanel;
 	private JPanel center;
-	private JLabel jlicon;
+	public JLabel jlicon;
 	public SearchGuiIcon ugi;
 	
 	
@@ -47,10 +47,11 @@ public class InstagramUserGuiSearchPanel extends JPanel {
 		Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		icon = new ImageIcon(newimg);  // transform it back
 		
+		// Back Icon
 		jlicon = new JLabel(icon);
-		
 		jlicon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		jlicon.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		
 		exit.add(Box.createVerticalGlue());
 		exit.add(jlicon);
@@ -95,7 +96,6 @@ public class InstagramUserGuiSearchPanel extends JPanel {
 		add(exit, BorderLayout.WEST);
 		add(searchpanel, BorderLayout.EAST);
 			
-
 	};
 	
 	public String getCenterSize() {

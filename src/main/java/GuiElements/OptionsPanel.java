@@ -1,5 +1,6 @@
 package GuiElements;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -17,26 +18,26 @@ public class OptionsPanel extends JPanel{
 	private Color color1 = new Color(112,196,240);
 	private Color color2 = new Color(0,149,246);
 
-	public NewBoton btnau;
+	public NewBoton btnaiu;
 	public NewBoton btnaeu;
+	private CardLayout cl;
 	
 	public OptionsPanel() {
+		this.cl = cl;
 		
 		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		
 		gl = new GridLayout(7,0);
         gl.setHgap(0); // horizontal gap
         gl.setVgap(20); // vertical gap
         setLayout(gl);        
 
-        btnau = new NewBoton("Analizar Interior Usuario");
-        add(btnau);
+        btnaiu = new NewBoton("Analizar Interior Usuario");
         btnaeu = new NewBoton("Analizar Exterior Usuario");
+        
+        add(btnaiu);
         add(btnaeu);
-
        
 	}
-	
 	public static void main(String[] args) {		
         JFrame frame = new JFrame("JPanel con botones");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,4 +48,8 @@ public class OptionsPanel extends JPanel{
         frame.add(op);
         frame.setVisible(true);	
 	}
+	public NewBoton getFirstButton() {
+		return btnaiu;
+	}
+	
 }
