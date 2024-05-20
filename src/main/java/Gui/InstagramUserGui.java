@@ -171,7 +171,7 @@ public class InstagramUserGui {
 		// JPanelManager 
 		pm = new PanelManager(panelList);
 		
-		pm.addListenerioc(op);
+		pm.addListenerioc(op,driver);
 	
 		
 		// JPanel Manager added
