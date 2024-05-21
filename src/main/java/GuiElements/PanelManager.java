@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import ImageDownloader.ImageDownloader;
+import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
+
 public class PanelManager extends JPanel {
 	
 	private List<JPanel> panelList;
@@ -36,6 +40,9 @@ public class PanelManager extends JPanel {
 	
 	private ArrayList<String> arrstorysrc = new ArrayList<>();
 	private String user;
+	private String rutaDescarga;
+	
+	private ImageDownloader imagedownloader;
 	
 	public PanelManager(List<JPanel> pl) {
 		this.panelList = pl;
@@ -100,7 +107,10 @@ public class PanelManager extends JPanel {
 			        int returnValue = fileChooser.showOpenDialog(null);
 			        if (returnValue == JFileChooser.APPROVE_OPTION) {
 			            File selectedDirectory = fileChooser.getSelectedFile();
+			            
+			            rutaDescarga = selectedDirectory.getAbsolutePath();
 			            System.out.println("Directorio seleccionado: " + selectedDirectory.getAbsolutePath());
+			            
 			            route = false;
 			            
 			            
@@ -135,11 +145,16 @@ public class PanelManager extends JPanel {
 	
 	public void getDatosPerfil() {
 		try {
-			// Titulo
+			// Descargar los datos del Perfil
+			user = driver.getCurrentUrl().replace("https://www.instagram.com/","");
+			
 			JavascriptExecutor js = (JavascriptExecutor) driver;
 			String scriptInfo = "let infon = document.getElementsByClassName('xrvj5dj xpagfr2 xl463y0 x3mjgb7 xdj266r xh8yej3')[0].childNodes[3].childNodes[0].childElementCount; let textinfo = ''; for (let i = 0; i < infon+1; i++) { textinfo = textinfo + '\\n' +document.getElementsByClassName('xrvj5dj xpagfr2 xl463y0 x3mjgb7 xdj266r xh8yej3')[0].childNodes[3].childNodes[0].childNodes[i].textContent; }  return(textinfo);";	
 			String res = (String) js.executeScript(scriptInfo);
-			System.out.println(res);
+            FileWriter writer = new FileWriter(rutaDescarga+"\\"+user+".txt");
+            writer.write(res);
+            writer.close();
+            System.out.println("Datos de Biografia Almacenados.");
 			
 		}catch (Exception e2) {
 			System.out.println("error en "+e2.getMessage());
@@ -152,7 +167,6 @@ public class PanelManager extends JPanel {
 		// Comprobamos si existe historia
 		int segn = ((Long) js.executeScript("return(document.getElementsByClassName('x6s0dn4 xamitd3 x1lliihq xl56j7k x1n2onr6')[0].childNodes.length)")).intValue();
 		
-		user = driver.getCurrentUrl().replace("https://www.instagram.com/","");
 		driver.get("https://www.instagram.com/stories/"+user);
 		System.out.println("Inicio del metodo testHistoriaInstagram usuario: "+user);
 		boolean loading = true;
@@ -160,7 +174,6 @@ public class PanelManager extends JPanel {
 		
 		
 		if (segn == 2) {
-			
 			while (loading) {
 				try {
 					Thread.sleep(100);
@@ -257,17 +270,29 @@ public class PanelManager extends JPanel {
 			System.out.println("Hay un total de "+l+" instagram stories js");
 					
 			System.out.println("Leyendo las direcciones =");
+			imagedownloader = new ImageDownloader();
+			
+			// Crea un directorio de Stories
+			
+			String rutaDescargaStories = rutaDescarga + "\\Stories";
+		    File directory = new File(rutaDescargaStories);
+		    if (!directory.exists()) {
+		        boolean created = directory.mkdirs();
+		    }
+			
 			for (int i=0; i<arrstorysrc.size(); i++) {
 				System.out.println("imagen "+i+" "+arrstorysrc.get(i));
+				imagedownloader.downloadImage(rutaDescargaStories+"\\"+"storie"+i+".jpg", arrstorysrc.get(i));
+				
 			}
 		}
-
 	}
 	
 	private void buscarFotos() {
 		driver.get("https://www.instagram.com/"+user);
 		System.out.println("Iniciando metodo buscarFotos()");
 		ArrayList<String> srcPhotos = new ArrayList<>();
+		imagedownloader = new ImageDownloader();
 		
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		ArrayList<String> listaFotos = new ArrayList<>();
@@ -277,29 +302,38 @@ public class PanelManager extends JPanel {
 			try {
 				// Lo almaceno todo en un ArrayList
 
-				List<WebElement> plants = driver.findElements(By.xpath("//div[contains(@class, 'x1lliihq x1n2onr6 xh8yej3 x4gyw5p x2pgyrj xbkimgs xfllauq xh8taat xo2y696')]"));
-				  
+				// x1lliihq x1n2onr6 xh8yej3 x4gyw5p x2pgyrj xbkimgs xfllauq xh8taat xo2y696
+				// _aagv
+				// document.getElementsByClassName('_aagv')[0].childNodes[0].getAttribute('src')
+
+				List<WebElement> plants = driver.findElements(By.xpath("//div[contains(@class, '_aagv')]"));		   			    
 				for(int i=0; i<plants.size(); i++){
-				    WebElement a = plants.get(i).findElement(By.xpath("//img[@crossorigin='anonymous']"));
+				    WebElement a = plants.get(i).findElement(By.tagName("img"));	
+				    String urlPhoto = a.getAttribute("src");
 				    
-				    if (!arrstorysrc.contains(a.getAttribute("src"))) {
-				    	arrstorysrc.add(a.getAttribute("src"));
-				    }			  
-				    
+				    if (!srcPhotos.contains(urlPhoto)) {
+				    	srcPhotos.add(urlPhoto);
+				    }
 				}
 				
-				System.out.println("size = "+plants.size());
-				System.out.println(" ");
-				// x1lliihq x1n2onr6 xh8yej3 x4gyw5p x2pgyrj xbkimgs xfllauq xh8taat xo2y696
-				
 				js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+				Thread.sleep(100);
 				js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+				Thread.sleep(100);
 				js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 				driver.findElement(By.xpath("//div[@role = 'progressbar']"));
-				Thread.sleep(1500);
+				Thread.sleep(1200);
 				System.out.println("Estamos cargando el perfil...");
+				
+				
 			} catch (Exception e) {
-				e.printStackTrace();
+				
+				// Descargar las fotos en la ruta indicada
+				for (int i=0; i<srcPhotos.size(); i++) {
+					imagedownloader.downloadImage(rutaDescarga+"\\"+user+""+i+".jpg", srcPhotos.get(i));
+				}
+				
+				System.out.println("Imagenes descargadas");
 				condicion = false;
 			}
 		}
